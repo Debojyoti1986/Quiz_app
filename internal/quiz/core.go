@@ -22,7 +22,7 @@ type Core struct {
 
 type ICore interface {
 	AddQuestion(questionText string, options []string, correctAnswer string)
-	AnswerQuestion(question *models.Question) error
+	AnswerQuestion(question *models.Question, timeout time.Duration) error
 	GetDatastore() *datastore.Datastore
 }
 
@@ -48,7 +48,7 @@ func (c *Core) AddQuestion(questionText string, options []string, correctAnswer 
 	c.Datastore.Questions = append(c.Datastore.Questions, question)
 }
 
-func (c *Core) AnswerQuestion(question *models.Question) error {
+func (c *Core) AnswerQuestion(question *models.Question, timeout time.Duration) error {
 	input := make(chan string, 1)
 
 	fmt.Println("---------------------------")
@@ -70,7 +70,7 @@ func (c *Core) AnswerQuestion(question *models.Question) error {
 		} else {
 			fmt.Println("Wrong answer. Correct answer is ", question.CorrectAnswer)
 		}
-	case <-time.After(10000 * time.Millisecond):
+	case <-time.After(timeout * time.Second):
 		fmt.Println("Time out")
 	}
 
