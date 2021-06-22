@@ -10,14 +10,14 @@ func main() {
 	var (
 		noOfWrongAnswers 		int
 		noOfUnanswered 			int
-		noOfCorrectAnswered 	int
+		noOfCorrectAnswered 		int
 	)
 
 	core := quiz.NewCore()
 	initializeQuestionSet(core)
 
 	for _, question := range core.GetDatastore().Questions {
-		core.AnswerQuestion(question)
+		core.AnswerQuestion(question, 10)
 	}
 
 	fmt.Println("---------------------------")
